@@ -1,5 +1,4 @@
-import { readFile } from 'fs/promises';
-import { writeFileSync } from 'fs';
+import { readFile, writeFile, rm } from 'fs/promises';
 import { fileURLToPath } from 'url';
 import { exec } from 'child_process';
 import { promisify } from 'util';
@@ -9,7 +8,7 @@ const __current_filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__current_filename);
 const configPath = path.join(__dirname, 'config.json');
 
-const configRaw = await readFile(configPath, 'utf-8');
+const configRaw = await readFile(configPath, { encoding: 'utf-8' });
 const config = JSON.parse(configRaw);
 const apiKey = config.apiKey;
 const confidenceMinimum = config.confidenceMinimum ?? '75';
@@ -45,7 +44,7 @@ const crowdsecDecisions = responseData.data
 	}));
 const crowdsecDecisionsJson = JSON.stringify(crowdsecDecisions);
 const crowdsecDecisionsPath = path.join(__dirname, 'decisions.json');
-writeFileSync(crowdsecDecisionsPath, crowdsecDecisionsJson, 'utf-8');
+await writeFile(crowdsecDecisionsPath, crowdsecDecisionsJson, { encoding: 'utf-8' });
 
 const execAsync = promisify(exec);
 const { stdout, stderr } = await execAsync(`cscli decisions import -i "${crowdsecDecisionsPath}"`);
@@ -55,3 +54,5 @@ console.log('Command output:\n', stdout);
 if (stderr) {
 	console.error('Command stderr:\n', stderr);
 }
+
+await rm(crowdsecDecisionsPath);
