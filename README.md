@@ -2,8 +2,7 @@
 This script downloads the AbuseIPDB database and imports it into CrowdSec
 
 ### Requirements
-1. CrowdSec must be installed natively on the system, not in Docker
-2. [Node.js](https://nodejs.org/en) must be installed
+CrowdSec must be installed natively on the system, not in Docker
 
 
 ### How to use
@@ -30,5 +29,5 @@ sudo crontab -e
 
 Add this to the end and save:
 ```
-0 2 * * * /bin/node <PATH_TO_REPO>/index.mjs
+0 2 * * * /bin/bash <PATH_TO_REPO>/import_abuseipdb_blacklist.sh
 ```
