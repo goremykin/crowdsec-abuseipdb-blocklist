@@ -1,5 +1,10 @@
 ### About
-This script downloads the AbuseIPDB database and imports it into CrowdSec. This only works with CrowdSec installed natively on the system, not in Docker.
+This script downloads the AbuseIPDB database and imports it into CrowdSec
+
+### Requirements
+1. CrowdSec must be installed natively on the system, not in Docker
+2. [Node.js](https://nodejs.org/en) must be installed
+
 
 ### How to use
 Clone the repo and go into:
