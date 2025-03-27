@@ -29,5 +29,5 @@ sudo crontab -e
 
 Add this to the end and save:
 ```
-0 2 * * * /bin/bash <PATH_TO_REPO>/import_abuseipdb_blacklist.sh
+0 2 * * * /bin/bash <PATH_TO_REPO>/import_abuseipdb_blocklist.sh
 ```
