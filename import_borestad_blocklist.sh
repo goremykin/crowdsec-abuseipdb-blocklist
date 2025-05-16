@@ -9,11 +9,11 @@ fetch_blocklist() {
 }
 
 map_to_crowdsec_decisions() {
-	jq -Rn --arg duration "$BAN_DURATION" ' 
-        [inputs | select(test("^[0-9.]+$")) | 
-        {duration: $duration, reason: "borestad blocklist", scope: "ip", type: "ban", value: .}]
-    ' "$DECISIONS_FILE" > "$DECISIONS_FILE.tmp"
-    mv "$DECISIONS_FILE.tmp" "$DECISIONS_FILE"
+	jq -Rn --arg duration "$BAN_DURATION" '
+		[inputs | select(test("^[0-9.]+$")) |
+		{duration: $duration, reason: "borestad blocklist", scope: "ip", type: "ban", value: .}]
+	' "$DECISIONS_FILE" > "$DECISIONS_FILE.tmp"
+	mv "$DECISIONS_FILE.tmp" "$DECISIONS_FILE"
 }
 
 main() {
