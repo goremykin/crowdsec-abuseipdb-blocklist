@@ -1,10 +1,6 @@
 ### About
 This script downloads the AbuseIPDB database and imports it into CrowdSec
 
-### Requirements
-CrowdSec must be installed natively on the system, not in Docker
-
-
 ### How to use
 Clone the repo and go into:
 ```bash
@@ -32,6 +28,7 @@ nano config.json
 | `confidenceMinimum`       | Optional, 75 by default                           | [What is the "Confidence of Abuse" rating?](https://www.abuseipdb.com/faq.html#confidence) |
 | `banDuration`             | Optional, 24h by default                          | Ban duration                                                                               |
 | `borestadBlocklistPeriod` | Optional, 7d by default                           | Read more in [borestad repo](https://github.com/borestad/blocklist-abuseipdb)              |
+| `crowdsecContainerName`   | Required if you use CrowdSec in docker            | The name of the docker container in which CrowdSec is running                              |
 
 Open the root user's crontab for editing:
 ```bash

@@ -2,5 +2,6 @@
 	"apiKey": "YOUR_API_KEY",
 	"confidenceMinimum": "75",
 	"banDuration": "24h",
-	"borestadBlocklistPeriod": "7d"
+	"borestadBlocklistPeriod": "7d",
+	"crowdsecContainerName": ""
 }
