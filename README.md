@@ -11,6 +11,10 @@ Clone the repo and go into:
 git clone https://github.com/goremykin/crowdsec-abuseipdb-blocklist.git
 cd crowdsec-abuseipdb-blocklist
 ```
+Make scripts executable:
+```bash
+chmod +x ./import_abuseipdb_blocklist.sh ./import_borestad_blocklist.sh
+```
 
 Copy the config template:
 ```bash
