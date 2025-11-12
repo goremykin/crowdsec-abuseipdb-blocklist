@@ -22,6 +22,12 @@ map_to_crowdsec_decisions() {
 
 main() {
 	load_config
+
+	if [[ -z "$API_KEY" || "$API_KEY" == "YOUR_API_KEY" ]]; then
+		echo "Error: API key missing in config.json" >&2
+		exit 1
+	fi
+
 	fetch_blocklist
 	map_to_crowdsec_decisions
 	import_decisions
