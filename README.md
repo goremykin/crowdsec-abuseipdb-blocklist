@@ -1,3 +1,5 @@
+> **This repository has moved to https://codeberg.org/goremykin/crowdsec-abuseipdb-blocklist**
+
 ### About
 This script downloads the AbuseIPDB database and imports it into CrowdSec
 
