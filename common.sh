@@ -1,18 +1,45 @@
 #!/bin/bash
 
 load_config() {
-	CONFIG_FILE="$(dirname "$0")/config.json"
+    local SCRIPT_DIR
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-	if [[ ! -f "$CONFIG_FILE" ]]; then
-		echo "Error: Config file not found." >&2
-		exit 1
-	fi
-	API_KEY=$(jq -r '.apiKey // ""' "$CONFIG_FILE")
-	CONFIDENCE_MINIMUM=$(jq -r '.confidenceMinimum // "75"' "$CONFIG_FILE")
-	BAN_DURATION=$(jq -r '.banDuration // "24h"' "$CONFIG_FILE")
-	BORESTAD_BLOCKLIST_PERIOD=$(jq -r '.borestadBlocklistPeriod // "7d"' "$CONFIG_FILE")
-	CONTAINER_NAME=$(jq -r '.crowdsecContainerName // ""' "$CONFIG_FILE")
-	DECISIONS_FILE="$(dirname "$0")/decisions.json"
+    if [[ "${CONFIG_BY_ENV:-false}" != true ]]; then
+        CONFIG_FILE="${SCRIPT_DIR}/config.json"
+        if [[ ! -f "$CONFIG_FILE" ]]; then
+            echo "Error: Config file not found: $CONFIG_FILE" >&2
+            exit 1
+        fi
+
+        API_KEY="$(jq -r '.apiKey // ""' "$CONFIG_FILE")"
+        CONFIDENCE_MINIMUM="$(jq -r '.confidenceMinimum // 75' "$CONFIG_FILE")"
+        BAN_DURATION="$(jq -r '.banDuration // "24h"' "$CONFIG_FILE")"
+        BORESTAD_BLOCKLIST_PERIOD="$(jq -r '.borestadBlocklistPeriod // "7d"' "$CONFIG_FILE")"
+        CONTAINER_NAME="$(jq -r '.crowdsecContainerName // ""' "$CONFIG_FILE")"
+        DECISIONS_FILE="${SCRIPT_DIR}/decisions.json"
+    else
+        API_KEY="${API_KEY:-}"
+        CONFIDENCE_MINIMUM="${CONFIDENCE_MINIMUM:-75}"
+        BAN_DURATION="${BAN_DURATION:-24h}"
+        BORESTAD_BLOCKLIST_PERIOD="${BORESTAD_BLOCKLIST_PERIOD:-7d}"
+        CONTAINER_NAME="${CROWDSEC_CONTAINER_NAME:-}"
+        DECISIONS_FILE="/tmp/decisions.json"
+
+        if [[ -n "${API_KEY_FILE:-}" ]] && [[ -f "$API_KEY_FILE" ]]; then
+            API_KEY="$(<"$API_KEY_FILE")"
+        fi
+    fi
+
+    # Validate required parameters
+    if [[ -z "$API_KEY" ]]; then
+        echo "Error: API key is required." >&2
+        exit 1
+    fi
+
+    if [[ -z "$CONTAINER_NAME" ]]; then
+        echo "Error: CrowdSec container name is required." >&2
+        exit 1
+    fi
 }
 
 import_decisions() {

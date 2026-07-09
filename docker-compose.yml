@@ -1,0 +1,20 @@
+services:
+  crowdsec-abuseipdb-blocklist:
+    build: .
+    container_name: crowdsec-abuseipdb-blocklist
+    group_add:
+      - 997 # getent group docker
+    environment:
+      API_KEY_FILE: /run/secrets/api_key
+      ENABLE_ABUSEIPDB: true
+      CRON_SCHEDULE: 0 0 * * *
+      CROWDSEC_CONTAINER_NAME: crowdsec
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    secrets:
+      - api_key
+    restart: unless-stopped
+
+secrets:
+  api_key:
+    file: ./api_key.txt

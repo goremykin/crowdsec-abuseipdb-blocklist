@@ -1,1 +1,3 @@
 config.json
+.env
+api_key.txt
